@@ -74,9 +74,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .nit-row { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; }
 .field { display: grid; gap: 6px; min-width: 0; }
 .field > span, .fld-label { font-size: .86rem; font-weight: 600; color: var(--muted); }
-.nit { font-family: var(--font-num); font-size: 2.2rem; font-weight: 600; width: 3.4em; letter-spacing: .5em; padding: 6px 0 6px .45em; text-align: left; color: var(--heading);
-  border: 2px solid var(--navy); border-radius: 8px; background:
+/* Casillas del NIT: el recuadro dibuja dos celdas iguales y cada dígito se centra en la suya.
+   El campo es más ancho que el recuadro para que el espacio final del letter-spacing no lo haga desplazarse al escribir. */
+.nit-box { --cell: 3.3rem; display: block; width: calc(var(--cell) * 2 + 4px); overflow: hidden; overflow: clip; border: 2px solid var(--navy); border-radius: 8px; background:
   linear-gradient(90deg, transparent calc(50% - 1px), var(--line) calc(50% - 1px), var(--line) calc(50% + 1px), transparent calc(50% + 1px)), var(--surface); }
+.nit-box:focus-within { outline: 3px solid var(--gold); outline-offset: 2px; }
+.nit { display: block; font-family: var(--font-num); font-size: 2.2rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--heading);
+  width: calc(var(--cell) * 3); padding: 6px 0 6px calc((var(--cell) - 1ch) / 2); letter-spacing: calc(var(--cell) - 1ch); text-align: left;
+  border: 0; background: transparent; }
+.nit:focus-visible { outline: none; }
 .nit-cap { font-size: .82rem; color: var(--muted); max-width: 26ch; }
 select, input[type=text], input[type=date], input[type=number] { font: inherit; font-size: 1rem; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); width: 100%; min-width: 0; }
 input[data-money] { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
