@@ -5,6 +5,7 @@
 """
 import base64, json, os, shutil, html
 from pathlib import Path
+import politica
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "src"
@@ -53,7 +54,7 @@ def cta_footer(prefix):
 </div></section>
 <footer class="foot"><div class="wrap">
   <p>La información de este sitio es de referencia y no reemplaza la asesoría profesional. Fechas del Calendario Tributario 2026 de la DIAN (versión del 1 de julio de 2026). Tasas y valores actualizados al 22 de octubre de 2026.</p>
-  <p>SOLUCION CONTABLE Y FISCAL S.A.S. · Vía 40 #73-290, Edificio Mix, Oficina 612, Barranquilla · WhatsApp <span class="num">300 507 4934</span> · solucontfisc@gmail.com · <a href="{MAIN}" target="_blank" rel="noopener">solucioncontableyfiscal.com</a></p>
+  <p>SOLUCION CONTABLE Y FISCAL S.A.S. · Vía 40 #73-290, Edificio Mix, Oficina 612, Barranquilla · WhatsApp <span class="num">300 507 4934</span> · solucontfisc@gmail.com · <a href="{MAIN}" target="_blank" rel="noopener">solucioncontableyfiscal.com</a> · <a href="{prefix}politica-de-datos.html">Política de tratamiento de datos</a></p>
 </div></footer>'''
 
 def mora_options():
@@ -346,6 +347,16 @@ def article_body(a, prefix, logo_src):
   <div class="box"><b>¿Necesitas ayuda con esto?</b> Escríbenos por <a href="{WA}" target="_blank" rel="noopener">WhatsApp al 300 507 4934</a> o <a href="{AGENDA}" target="_blank" rel="noopener">agenda una cita de 30 minutos</a>.</div>
 </div></main>''' + cta_footer(prefix)
 
+def policy_body(prefix, logo_src):
+    return header(prefix, logo_src) + f'''
+<main class="article"><div class="wrap">
+  <a class="back" href="{prefix}index.html">← Volver al portal</a>
+  <span class="eyebrow" style="margin-top:18px">Protección de datos</span>
+  <h1>{politica.TITLE}</h1>
+  <p class="meta">SOLUCION CONTABLE Y FISCAL S.A.S. · NIT <span class="num">902.118.737-1</span> · {politica.VERSION}</p>
+  {politica.body_html()}
+</div></main>''' + cta_footer(prefix)
+
 TODAY_JS = '''(function(){var d=new Date(),s=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 document.querySelectorAll("input[data-today]").forEach(function(e){e.value=s;});
 var m=document.getElementById("mo-mes");if(m){var k=s.slice(0,7);var ok=[].some.call(m.options,function(o){return o.value===k;});if(ok)m.value=k;}})();'''
@@ -397,7 +408,10 @@ def build_site():
         doc = full_doc(a["title"] + " | Solución Contable y Fiscal", a["desc"], f"{DOMAIN}/articulos/{a['slug']}.html",
                        article_body(a, "../", "../assets/logo-96.png"), "../assets/site.css", "", ld, "article")
         (SITE / "articulos" / f"{a['slug']}.html").write_text(doc)
-    urls = [DOMAIN + "/"] + [f"{DOMAIN}/articulos/{a['slug']}.html" for a in ARTICLES]
+    pdoc = full_doc(politica.TITLE + " | Solución Contable y Fiscal", politica.DESC, f"{DOMAIN}/{politica.SLUG}.html",
+                    policy_body("", "assets/logo-96.png"), "assets/site.css", "")
+    (SITE / f"{politica.SLUG}.html").write_text(pdoc)
+    urls = [DOMAIN + "/"] + [f"{DOMAIN}/articulos/{a['slug']}.html" for a in ARTICLES] + [f"{DOMAIN}/{politica.SLUG}.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{u}</loc><lastmod>2026-10-23</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (SITE / "sitemap.xml").write_text(sm)
@@ -409,6 +423,7 @@ def build_preview():
     if PREV.exists(): shutil.rmtree(PREV)
     (PREV / "articulos").mkdir(parents=True)
     logo = "data:image/png;base64," + LOGO96
+    (PREV / f"{politica.SLUG}.html").write_text('<!doctype html>\n<html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>' + politica.TITLE + '</title>' + FONTS + "<style>" + CSS + "</style></head><body>" + policy_body("", logo) + "</body></html>")
     inline = "<script>" + DATA_JS + "</script><script>" + CALC_JS + "</script><script>" + TODAY_JS + "</script><script>" + UI_JS + "</script>"
     top = '<title>Recursos Tributarios SCF</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n' + FONTS + "\n<style>\n" + CSS + "\n</style>\n"
     (PREV / "index.html").write_text(top + index_body("", logo) + inline)
