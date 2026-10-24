@@ -3,7 +3,7 @@
    site/    → sitio real para GitHub Pages (documentos completos, archivos separados)
    preview/ → vista previa privada (Artifact): CSS y JS en línea, logo como data URI
 """
-import base64, json, os, shutil, html
+import base64, json, os, shutil, html, hashlib
 from pathlib import Path
 import politica
 
@@ -24,6 +24,8 @@ DATA_JS = (SRC / "data.js").read_text()
 CALC_JS = (SRC / "calc.js").read_text()
 UI_JS = (SRC / "ui.js").read_text()
 LOGO96 = base64.b64encode((ROOT / "assets/logo-96.png").read_bytes()).decode()
+# Versión de los archivos para que el navegador no use una copia vieja después de publicar.
+VER = hashlib.sha1((CSS + DATA_JS + CALC_JS + UI_JS).encode()).hexdigest()[:8]
 
 ORG_LD = {
     "@context": "https://schema.org", "@type": "AccountingService",
@@ -374,7 +376,7 @@ def full_doc(title, desc, canonical, body, css_href, scripts, ld=None, og_type="
 <meta property="og:type" content="{og_type}"><meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{DOMAIN}/assets/logo-512.png"><meta property="og:locale" content="es_CO">
 <link rel="icon" href="{css_href.rsplit('/',1)[0]}/logo-32.png" sizes="32x32"><link rel="apple-touch-icon" href="{css_href.rsplit('/',1)[0]}/logo-192.png">
 {FONTS}
-<link rel="stylesheet" href="{css_href}">
+<link rel="stylesheet" href="{css_href}?v={VER}">
 {ldtag}
 </head>
 <body>
@@ -394,7 +396,7 @@ def build_site():
     (SITE / "assets/data.js").write_text(DATA_JS)
     (SITE / "assets/calc.js").write_text(CALC_JS)
     (SITE / "assets/ui.js").write_text(UI_JS)
-    scripts = '<script src="assets/data.js"></script><script src="assets/calc.js"></script><script>' + TODAY_JS + '</script><script src="assets/ui.js"></script>'
+    scripts = f'<script src="assets/data.js?v={VER}"></script><script src="assets/calc.js?v={VER}"></script><script>' + TODAY_JS + f'</script><script src="assets/ui.js?v={VER}"></script>'
     idx = full_doc("Calendario tributario 2026 y calculadoras | Solución Contable y Fiscal",
                    "Consulta tus fechas del calendario tributario 2026 con los dos últimos dígitos del NIT y usa calculadoras gratis de retención en la fuente, intereses de mora, sanciones y prestaciones sociales.",
                    DOMAIN + "/", index_body("", "assets/logo-96.png"), "assets/site.css", scripts, ORG_LD)
