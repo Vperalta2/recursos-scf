@@ -11,19 +11,23 @@ ROOT = Path(__file__).parent
 SRC = ROOT / "src"
 SITE = ROOT / "site"
 PREV = ROOT / "preview"
+# Los logos viven en la raíz del repo (assets/); se aceptan también dentro de _fuente/assets/.
+ASSETS = ROOT / "assets" if (ROOT / "assets/logo-96.png").exists() else ROOT.parent / "assets"
 DOMAIN = "https://recursos.solucioncontableyfiscal.com"
 MAIN = "https://solucioncontableyfiscal.com/"
 AGENDA = "https://calendar.app.google/NaQe5qqNjgy27SrF7"
 FORM_CONTACTO = "https://forms.gle/e7yWGi6NWT7gZv5R6"
 FORM_FORMATOS = os.environ.get("FORM_FORMATOS", "#formatos-pendiente")
 WA = "https://wa.me/573005074934"
+WA_DEMO = WA + "?text=" + "Hola%2C%20quiero%20una%20demostraci%C3%B3n%20de%20Facturas%20masivas%20en%20Siigo"
+SIIGO_SLUG = "facturas-masivas-siigo"
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,600..800&family=IBM+Plex+Mono:wght@500;600&family=Source+Sans+3:wght@400;600;700&display=swap">'
 
 CSS = (SRC / "site.css").read_text()
 DATA_JS = (SRC / "data.js").read_text()
 CALC_JS = (SRC / "calc.js").read_text()
 UI_JS = (SRC / "ui.js").read_text()
-LOGO96 = base64.b64encode((ROOT / "assets/logo-96.png").read_bytes()).decode()
+LOGO96 = base64.b64encode((ASSETS / "logo-96.png").read_bytes()).decode()
 # Versión de los archivos para que el navegador no use una copia vieja después de publicar.
 VER = hashlib.sha1((CSS + DATA_JS + CALC_JS + UI_JS).encode()).hexdigest()[:8]
 
@@ -43,7 +47,7 @@ def header(prefix, logo_src):
     return f'''<header class="top"><div class="wrap">
   <a class="brand" href="{p}index.html"><img src="{logo_src}" alt="Logo de Solución Contable y Fiscal" width="40" height="40"><span><b>Recursos tributarios</b><small>Solución Contable y Fiscal</small></span></a>
   <nav class="nav" aria-label="Secciones">
-    <a href="{p}index.html#calendario">Calendario</a><a href="{p}index.html#calculadoras">Calculadoras</a><a href="{p}index.html#indicadores">Indicadores</a><a href="{p}index.html#articulos">Artículos</a><a href="{p}index.html#formatos">Formatos</a>
+    <a href="{p}index.html#calendario">Calendario</a><a href="{p}index.html#calculadoras">Calculadoras</a><a href="{p}index.html#indicadores">Indicadores</a><a href="{p}index.html#articulos">Artículos</a><a href="{p}index.html#formatos">Formatos</a><a href="{p}{SIIGO_SLUG}.html">Facturas masivas Siigo</a>
   </nav>
   <a class="btn btn-primary" href="{AGENDA}" target="_blank" rel="noopener">Agenda tu cita</a>
 </div></header>'''
@@ -220,6 +224,15 @@ def index_body(prefix, logo_src):
     <div class="card"><span class="tag">Excel · fórmulas</span><h3>Liquidador de prestaciones sociales 2026</h3><p>Cesantías, intereses, prima y vacaciones con el salario mínimo y el auxilio de transporte de 2026, para uno o varios trabajadores.</p><a class="btn btn-primary" href="{FORM_FORMATOS}" target="_blank" rel="noopener">Descargar gratis</a></div>
   </div>
 </div></section>
+
+<section class="section" id="siigo"><div class="wrap">
+  <a class="promo" href="{prefix}{SIIGO_SLUG}.html">
+    <span class="tag">Nuevo servicio</span>
+    <h2>Facturas masivas en Siigo</h2>
+    <p>Llevamos a Siigo, en bloque, las facturas electrónicas que tu empresa recibe en la DIAN, sin digitarlas una por una y sin duplicados.</p>
+    <span class="go">Conoce cómo funciona →</span>
+  </a>
+</div></section>
 </main>
 ''' + cta_footer(prefix)
 
@@ -359,6 +372,77 @@ def policy_body(prefix, logo_src):
   {politica.body_html()}
 </div></main>''' + cta_footer(prefix)
 
+def siigo_body(prefix, logo_src):
+    p = prefix
+    pasos = [
+        ("Descargamos tus facturas de la DIAN", "Tomamos los XML de las facturas electrónicas que recibiste de tus proveedores, directamente del portal de la DIAN."),
+        ("Leemos cada factura", "Del XML sacamos proveedor, NIT, fecha, número, valores e impuestos. Nada se digita a mano."),
+        ("Revisas antes de contabilizar", "Te mostramos una vista previa de lo que se va a registrar para que lo apruebes antes de enviarlo."),
+        ("Las registramos en Siigo", "Usamos la integración oficial de Siigo (API). Las facturas que ya estaban registradas se detectan y no se duplican."),
+    ]
+    steps = "".join(f'<li><b>{t}</b><span>{d}</span></li>' for t, d in pasos)
+    faqs = [
+        ("¿Qué documentos incluye?", "Facturas electrónicas de compra y gasto que tu empresa recibe en la DIAN. Si manejas otros documentos, cuéntanos y revisamos tu caso."),
+        ("¿Qué pasa si una factura ya está en Siigo?", "Antes de enviar, el proceso revisa lo que ya existe en tu cuenta. Las facturas repetidas se marcan y no se vuelven a registrar."),
+        ("¿Necesito entregar mi contraseña de Siigo?", "No. La conexión se hace con la clave de integración (API) de tu cuenta de Siigo. Te explicamos cómo generarla y tú la ingresas."),
+        ("¿Sirve si llevo la contabilidad de varias empresas?", "Sí. Está pensado para contadores y empresas con varios NIT: cada empresa se configura por separado."),
+        ("¿Cuánto cuesta?", "Depende de cuántas facturas recibes al mes y de cuántas empresas manejas. Escríbenos por WhatsApp y te enviamos la cotización."),
+        ("¿Qué hacen con mis datos?", f'Solo los usamos para registrar tus facturas, según nuestra <a href="{p}politica-de-datos.html">política de tratamiento de datos</a> (Ley 1581 de 2012).'),
+    ]
+    faq = "".join(f'<details class="faq"><summary>{q}</summary><p>{a}</p></details>' for q, a in faqs)
+    return header(prefix, logo_src) + f"""
+<main>
+<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-copy">
+    <span class="eyebrow">Nuevo servicio · Siigo Nube</span>
+    <h1>Facturas masivas en Siigo</h1>
+    <p class="lede">Llevamos a Siigo, en bloque, las facturas electrónicas que tu empresa recibe en la DIAN. Sin digitarlas una por una, sin duplicados y con tu revisión antes de contabilizar.</p>
+    <div class="checks"><a class="btn btn-primary" href="{WA_DEMO}" target="_blank" rel="noopener">Pide tu demostración por WhatsApp</a><a class="btn btn-ghost" href="#como-funciona">Cómo funciona</a></div>
+    <p class="note">Precio: consúltalo por WhatsApp según tu volumen de facturas.</p>
+  </div>
+  <div class="cal-card">
+    <h3>Lo que ganas</h3>
+    <ul class="gains">
+      <li><b>Cero digitación</b><span>Las facturas pasan del XML de la DIAN a Siigo sin copiar datos a mano.</span></li>
+      <li><b>Sin duplicados</b><span>Las facturas que ya están en Siigo se detectan antes de enviar.</span></li>
+      <li><b>Control</b><span>Ves y apruebas una vista previa antes de que algo se registre.</span></li>
+      <li><b>Soporte DIAN</b><span>Cada registro sale de la factura electrónica oficial.</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<section class="section" id="como-funciona"><div class="wrap">
+  <div class="sec-head"><span class="eyebrow">Cómo funciona</span><h2>De la DIAN a Siigo en cuatro pasos</h2></div>
+  <ol class="steps">{steps}</ol>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="sec-head"><span class="eyebrow">Para quién es</span><h2>Ideal si recibes muchas facturas de proveedores</h2></div>
+  <div class="cards3">
+    <div class="card"><span class="tag">Empresas</span><h3>Mucho volumen de compras</h3><p>Si cada mes recibes decenas o cientos de facturas, dejas de perder horas digitándolas.</p></div>
+    <div class="card"><span class="tag">Contadores</span><h3>Varios clientes en Siigo</h3><p>Registra las compras de cada cliente en su propia cuenta de Siigo, con el mismo proceso.</p></div>
+    <div class="card"><span class="tag">Cierre de mes</span><h3>Menos errores al cerrar</h3><p>Los valores e impuestos salen del XML oficial, así el IVA descontable y las retenciones cuadran con la DIAN.</p></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="sec-head"><span class="eyebrow">Preguntas frecuentes</span><h2>Lo que más nos preguntan</h2></div>
+  <div class="faqs">{faq}</div>
+  <p class="note" style="margin-top:18px">Siigo es una marca de su respectivo titular. Solución Contable y Fiscal presta este servicio de forma independiente usando la integración pública de Siigo.</p>
+</div></section>
+</main>
+<section class="cta"><div class="wrap">
+  <div><h2>¿Quieres verlo con tus facturas?</h2>
+  <p>Te hacemos una demostración con una muestra de tus facturas de la DIAN y te cotizamos según tu volumen. Atención presencial en Barranquilla y virtual en toda Colombia.</p></div>
+  <div class="btns"><a class="btn btn-gold" href="{WA_DEMO}" target="_blank" rel="noopener">Pide tu demostración por WhatsApp</a><a class="btn btn-ghost" href="{AGENDA}" target="_blank" rel="noopener">Agenda una cita</a></div>
+</div></section>
+<footer class="foot"><div class="wrap">
+  <p>SOLUCION CONTABLE Y FISCAL S.A.S. · Vía 40 #73-290, Edificio Mix, Oficina 612, Barranquilla · WhatsApp <span class="num">300 507 4934</span> · solucontfisc@gmail.com · <a href="{MAIN}" target="_blank" rel="noopener">solucioncontableyfiscal.com</a> · <a href="{p}politica-de-datos.html">Política de tratamiento de datos</a></p>
+</div></footer>"""
+
+SIIGO_TITLE = "Facturas masivas en Siigo | Solución Contable y Fiscal"
+SIIGO_DESC = "Llevamos a Siigo, en bloque, las facturas electrónicas que tu empresa recibe en la DIAN: sin digitación, sin duplicados y con revisión antes de contabilizar."
+
 TODAY_JS = '''(function(){var d=new Date(),s=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 document.querySelectorAll("input[data-today]").forEach(function(e){e.value=s;});
 var m=document.getElementById("mo-mes");if(m){var k=s.slice(0,7);var ok=[].some.call(m.options,function(o){return o.value===k;});if(ok)m.value=k;}})();'''
@@ -391,7 +475,7 @@ def build_site():
     (SITE / "assets").mkdir(parents=True)
     (SITE / "articulos").mkdir()
     for f in ["logo-32.png", "logo-96.png", "logo-192.png", "logo-512.png"]:
-        shutil.copy(ROOT / "assets" / f, SITE / "assets" / f)
+        shutil.copy(ASSETS / f, SITE / "assets" / f)
     (SITE / "assets/site.css").write_text(CSS)
     (SITE / "assets/data.js").write_text(DATA_JS)
     (SITE / "assets/calc.js").write_text(CALC_JS)
@@ -413,7 +497,12 @@ def build_site():
     pdoc = full_doc(politica.TITLE + " | Solución Contable y Fiscal", politica.DESC, f"{DOMAIN}/{politica.SLUG}.html",
                     policy_body("", "assets/logo-96.png"), "assets/site.css", "")
     (SITE / f"{politica.SLUG}.html").write_text(pdoc)
-    urls = [DOMAIN + "/"] + [f"{DOMAIN}/articulos/{a['slug']}.html" for a in ARTICLES] + [f"{DOMAIN}/{politica.SLUG}.html"]
+    sld = {"@context": "https://schema.org", "@type": "Service", "name": "Facturas masivas en Siigo", "description": SIIGO_DESC,
+           "provider": {"@type": "AccountingService", "name": "Solución Contable y Fiscal", "url": MAIN}, "areaServed": "CO",
+           "url": f"{DOMAIN}/{SIIGO_SLUG}.html"}
+    (SITE / f"{SIIGO_SLUG}.html").write_text(full_doc(SIIGO_TITLE, SIIGO_DESC, f"{DOMAIN}/{SIIGO_SLUG}.html",
+                                                    siigo_body("", "assets/logo-96.png"), "assets/site.css", "", sld))
+    urls = [DOMAIN + "/"] + [f"{DOMAIN}/articulos/{a['slug']}.html" for a in ARTICLES] + [f"{DOMAIN}/{politica.SLUG}.html", f"{DOMAIN}/{SIIGO_SLUG}.html"]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + \
          "".join(f"  <url><loc>{u}</loc><lastmod>2026-10-23</lastmod></url>\n" for u in urls) + "</urlset>\n"
     (SITE / "sitemap.xml").write_text(sm)
@@ -426,6 +515,7 @@ def build_preview():
     (PREV / "articulos").mkdir(parents=True)
     logo = "data:image/png;base64," + LOGO96
     (PREV / f"{politica.SLUG}.html").write_text('<!doctype html>\n<html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>' + politica.TITLE + '</title>' + FONTS + "<style>" + CSS + "</style></head><body>" + policy_body("", logo) + "</body></html>")
+    (PREV / f"{SIIGO_SLUG}.html").write_text('<!doctype html>\n<html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Facturas masivas en Siigo</title>' + FONTS + "<style>" + CSS + "</style></head><body>" + siigo_body("", logo) + "</body></html>")
     inline = "<script>" + DATA_JS + "</script><script>" + CALC_JS + "</script><script>" + TODAY_JS + "</script><script>" + UI_JS + "</script>"
     top = '<title>Recursos Tributarios SCF</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n' + FONTS + "\n<style>\n" + CSS + "\n</style>\n"
     (PREV / "index.html").write_text(top + index_body("", logo) + inline)
