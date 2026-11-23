@@ -159,14 +159,12 @@
   function calcMora() {
     var mes = $("#mo-mes").value, tasa = D.moratorio[mes];
     var r = S.interesesMora(num($("#mo-cap")), $("#mo-venc").value, $("#mo-pago").value, tasa);
-    var r45 = S.interesesMora(num($("#mo-cap")), $("#mo-venc").value, $("#mo-pago").value, 4.5);
     $("#mo-res").innerHTML = rows([
       ["Días de mora", nf.format(r.dias)],
       ["Tasa de interés moratorio (" + mes.split("-").reverse().join("/") + ")", nf2.format(tasa) + " % E.A."],
       ["Fórmula", "capital × tasa ÷ " + r.base + " × días"],
       ["Intereses de mora", pesos(r.interes), "sub"],
-      ["Valor a pagar (redondeado a mil)", pesos(r.redondeado), "total"],
-      ["Con la tasa del 4,5 % del Decreto 1419 (si aplicas, hasta el 19 nov 2026)", pesos(r45.redondeado)]
+      ["Valor a pagar (redondeado a mil)", pesos(r.redondeado), "total"]
     ]);
   }
   // Sanción por extemporaneidad
@@ -176,8 +174,7 @@
       ["Meses o fracción de retraso", nf.format(r.meses)],
       ["5 % del impuesto por cada mes (tope 100 %)", pesos(r.calculada)],
       ["Sanción mínima 2026 (10 UVT)", pesos(r.minima)],
-      ["Sanción a pagar" + (r.aplicaMinima ? " · aplica la mínima" : ""), pesos(r.sancion), "total"],
-      ["Con la reducción al 15 % del Decreto 1419 (omisos al 10 ago 2026)", pesos(Math.max(S.redMil(r.calculada * 0.15), r.minima))]
+      ["Sanción a pagar" + (r.aplicaMinima ? " · aplica la mínima" : ""), pesos(r.sancion), "total"]
     ]);
   }
   // Prestaciones
