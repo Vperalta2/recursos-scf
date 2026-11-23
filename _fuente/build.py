@@ -55,16 +55,16 @@ def cta_footer(prefix):
   <div class="btns"><a class="btn btn-gold" href="{WA}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a><a class="btn btn-ghost" href="{FORM_CONTACTO}" target="_blank" rel="noopener">Solicita asesoría</a></div>
 </div></section>
 <footer class="foot"><div class="wrap">
-  <p>La información de este sitio es de referencia y no reemplaza la asesoría profesional. Fechas del Calendario Tributario 2026 de la DIAN (versión del 1 de julio de 2026). Tasas y valores actualizados al 22 de octubre de 2026.</p>
+  <p>La información de este sitio es de referencia y no reemplaza la asesoría profesional. Fechas del Calendario Tributario 2026 de la DIAN (versión del 1 de julio de 2026). Tasas y valores actualizados al 23 de noviembre de 2026.</p>
   <p>SOLUCION CONTABLE Y FISCAL S.A.S. · Vía 40 #73-290, Edificio Mix, Oficina 612, Barranquilla · WhatsApp <span class="num">300 507 4934</span> · solucontfisc@gmail.com · <a href="{MAIN}" target="_blank" rel="noopener">solucioncontableyfiscal.com</a> · <a href="{prefix}politica-de-datos.html">Política de tratamiento de datos</a></p>
 </div></footer>'''
 
 def mora_options():
-    meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre"]
+    meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre"]
     out = []
     for i, m in enumerate(meses, 1):
         k = f"2026-{i:02d}"
-        sel = " selected" if k == "2026-10" else ""
+        sel = " selected" if k == "2026-11" else ""
         out.append(f'<option value="{k}"{sel}>{m.capitalize()} 2026</option>')
     return "".join(out)
 
@@ -77,7 +77,7 @@ def index_body(prefix, logo_src):
     <h1>¿Cuándo vencen tus impuestos?</h1>
     <p class="lede">Escribe los dos últimos dígitos de tu NIT y elige tus obligaciones. Te mostramos cada fecha de 2026 según el calendario oficial de la DIAN y puedes agregarla a tu Google Calendar.</p>
     <p class="note">Solo usamos los dos últimos dígitos y el cálculo se hace en tu navegador: no guardamos ni enviamos tu NIT.</p>
-    <div class="checks"><a class="btn btn-ghost" href="#calculadoras">Ver calculadoras</a><a class="btn btn-ghost" href="{prefix}articulos/decreto-1419-2026-alivios-dian.html">Alivios hasta el 19 de noviembre</a></div>
+    <div class="checks"><a class="btn btn-ghost" href="#calculadoras">Ver calculadoras</a></div>
   </div>
   <div class="cal-card">
     <form id="cal-form" class="cal-form" autocomplete="off">
@@ -104,17 +104,16 @@ def index_body(prefix, logo_src):
 </div></section>
 
 <section class="section" id="indicadores"><div class="wrap">
-  <div class="sec-head"><span class="eyebrow">Indicadores · actualizados al 22 de octubre de 2026</span><h2>Cifras que usas todos los meses</h2></div>
+  <div class="sec-head"><span class="eyebrow">Indicadores · actualizados al 23 de noviembre de 2026</span><h2>Cifras que usas todos los meses</h2></div>
   <div class="ind-grid">
     <div class="ind"><span class="ind-k">UVT 2026</span><span class="ind-v">$52.374</span><span class="ind-s">Resolución DIAN 000238 de 2025</span></div>
     <div class="ind"><span class="ind-k">UVT 2025</span><span class="ind-v">$49.799</span><span class="ind-s">Resolución DIAN 000193 de 2024</span></div>
     <div class="ind"><span class="ind-k">Salario mínimo 2026</span><span class="ind-v">$1.750.905</span><span class="ind-s">Decreto 1469 de 2025 · el Consejo de Estado levantó su suspensión en julio de 2026</span></div>
     <div class="ind"><span class="ind-k">Auxilio de transporte 2026</span><span class="ind-v">$249.095</span><span class="ind-s">Decreto 1470 de 2025</span></div>
-    <div class="ind"><span class="ind-k">Interés moratorio DIAN · octubre</span><span class="ind-v">26,59 %</span><span class="ind-s">Efectiva anual · tasa de usura menos 2 puntos (art. 635 ET)</span></div>
-    <div class="ind"><span class="ind-k">Tasa de usura · octubre</span><span class="ind-v">28,59 %</span><span class="ind-s">Consumo y ordinario · Resolución Superfinanciera 1472 de 2026</span></div>
-    <div class="ind"><span class="ind-k">Interés bancario corriente · octubre</span><span class="ind-v">19,06 %</span><span class="ind-s">Efectiva anual · consumo y ordinario</span></div>
+    <div class="ind"><span class="ind-k">Interés moratorio DIAN · noviembre</span><span class="ind-v">26,34 %</span><span class="ind-s">Efectiva anual · tasa de usura menos 2 puntos (art. 635 ET)</span></div>
+    <div class="ind"><span class="ind-k">Tasa de usura · noviembre</span><span class="ind-v">28,34 %</span><span class="ind-s">Consumo y ordinario · Resolución Superfinanciera 1707 de 2026</span></div>
+    <div class="ind"><span class="ind-k">Interés bancario corriente · noviembre</span><span class="ind-v">18,89 %</span><span class="ind-s">Efectiva anual · consumo y ordinario</span></div>
     <div class="ind"><span class="ind-k">Sanción mínima 2026</span><span class="ind-v">$524.000</span><span class="ind-s">10 UVT · art. 639 ET</span></div>
-    <div class="ind"><span class="ind-k">Tasa especial Decreto 1419</span><span class="ind-v">4,5 %</span><span class="ind-s">Efectiva anual · solo para alivios pagados hasta el 19 de noviembre de 2026</span></div>
   </div>
 </div></section>
 
@@ -163,7 +162,7 @@ def index_body(prefix, logo_src):
         <label class="field" for="mo-pago"><span>Fecha de pago</span><input type="date" id="mo-pago" value="2026-10-23" data-today></label>
       </div>
       <label class="field" for="mo-mes"><span>Mes del pago (define la tasa)</span><select id="mo-mes">{mora_options()}</select></label>
-      <p class="src">Los intereses se calculan sobre el impuesto, no sobre las sanciones. La tasa de noviembre se publica a fin de mes.</p>
+      <p class="src">Los intereses se calculan sobre el impuesto, no sobre las sanciones. La tasa de diciembre se publica a fin de mes.</p>
     </form>
     <div id="mo-res" aria-live="polite"></div>
   </div>
@@ -299,7 +298,7 @@ ARTICLES.append({
 <h2>Dos recordatorios</h2>
 <ul>
 <li>La declaración de retención en la fuente presentada sin el pago total no produce efecto legal, salvo las excepciones del art. 580-1 del Estatuto Tributario.</li>
-<li>Si pagas tarde, los intereses de mora se liquidan con la tasa vigente el día del pago. En octubre es 26,59 % efectiva anual. <a href="../index.html#mo" data-tab="mo">Calcula tus intereses</a>.</li>
+<li>Si pagas tarde, los intereses de mora se liquidan con la tasa vigente el día del pago. En noviembre es 26,34 % efectiva anual. <a href="../index.html#mo" data-tab="mo">Calcula tus intereses</a>.</li>
 </ul>
 <p>¿Quieres ver todas tus fechas del año? Usa el <a href="../index.html#calendario">calendario por NIT</a>.</p>
 <p class="sources">Fuente: <a href="https://www.dian.gov.co/Calendarios/Calendario_Tributario_2026.pdf" target="_blank" rel="noopener">Calendario Tributario 2026, DIAN</a>.</p>
