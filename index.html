@@ -27,7 +27,7 @@
     <h1>¿Cuándo vencen tus impuestos?</h1>
     <p class="lede">Escribe los dos últimos dígitos de tu NIT y elige tus obligaciones. Te mostramos cada fecha de 2026 según el calendario oficial de la DIAN y puedes agregarla a tu Google Calendar.</p>
     <p class="note">Solo usamos los dos últimos dígitos y el cálculo se hace en tu navegador: no guardamos ni enviamos tu NIT.</p>
-    <div class="checks"><a class="btn btn-ghost" href="#calculadoras">Ver calculadoras</a><a class="btn btn-ghost" href="articulos/decreto-1419-2026-alivios-dian.html">Alivios hasta el 19 de noviembre</a></div>
+    <div class="checks"><a class="btn btn-ghost" href="#calculadoras">Ver calculadoras</a></div>
   </div>
   <div class="cal-card">
     <form id="cal-form" class="cal-form" autocomplete="off">
@@ -54,17 +54,16 @@
 </div></section>
 
 <section class="section" id="indicadores"><div class="wrap">
-  <div class="sec-head"><span class="eyebrow">Indicadores · actualizados al 22 de octubre de 2026</span><h2>Cifras que usas todos los meses</h2></div>
+  <div class="sec-head"><span class="eyebrow">Indicadores · actualizados al 23 de noviembre de 2026</span><h2>Cifras que usas todos los meses</h2></div>
   <div class="ind-grid">
     <div class="ind"><span class="ind-k">UVT 2026</span><span class="ind-v">$52.374</span><span class="ind-s">Resolución DIAN 000238 de 2025</span></div>
     <div class="ind"><span class="ind-k">UVT 2025</span><span class="ind-v">$49.799</span><span class="ind-s">Resolución DIAN 000193 de 2024</span></div>
     <div class="ind"><span class="ind-k">Salario mínimo 2026</span><span class="ind-v">$1.750.905</span><span class="ind-s">Decreto 1469 de 2025 · el Consejo de Estado levantó su suspensión en julio de 2026</span></div>
     <div class="ind"><span class="ind-k">Auxilio de transporte 2026</span><span class="ind-v">$249.095</span><span class="ind-s">Decreto 1470 de 2025</span></div>
-    <div class="ind"><span class="ind-k">Interés moratorio DIAN · octubre</span><span class="ind-v">26,59 %</span><span class="ind-s">Efectiva anual · tasa de usura menos 2 puntos (art. 635 ET)</span></div>
-    <div class="ind"><span class="ind-k">Tasa de usura · octubre</span><span class="ind-v">28,59 %</span><span class="ind-s">Consumo y ordinario · Resolución Superfinanciera 1472 de 2026</span></div>
-    <div class="ind"><span class="ind-k">Interés bancario corriente · octubre</span><span class="ind-v">19,06 %</span><span class="ind-s">Efectiva anual · consumo y ordinario</span></div>
+    <div class="ind"><span class="ind-k">Interés moratorio DIAN · noviembre</span><span class="ind-v">26,34 %</span><span class="ind-s">Efectiva anual · tasa de usura menos 2 puntos (art. 635 ET)</span></div>
+    <div class="ind"><span class="ind-k">Tasa de usura · noviembre</span><span class="ind-v">28,34 %</span><span class="ind-s">Consumo y ordinario · Resolución Superfinanciera 1707 de 2026</span></div>
+    <div class="ind"><span class="ind-k">Interés bancario corriente · noviembre</span><span class="ind-v">18,89 %</span><span class="ind-s">Efectiva anual · consumo y ordinario</span></div>
     <div class="ind"><span class="ind-k">Sanción mínima 2026</span><span class="ind-v">$524.000</span><span class="ind-s">10 UVT · art. 639 ET</span></div>
-    <div class="ind"><span class="ind-k">Tasa especial Decreto 1419</span><span class="ind-v">4,5 %</span><span class="ind-s">Efectiva anual · solo para alivios pagados hasta el 19 de noviembre de 2026</span></div>
   </div>
 </div></section>
 
@@ -112,8 +111,8 @@
         <label class="field" for="mo-venc"><span>Fecha de vencimiento</span><input type="date" id="mo-venc" value="2026-07-24"></label>
         <label class="field" for="mo-pago"><span>Fecha de pago</span><input type="date" id="mo-pago" value="2026-10-23" data-today></label>
       </div>
-      <label class="field" for="mo-mes"><span>Mes del pago (define la tasa)</span><select id="mo-mes"><option value="2026-01">Enero 2026</option><option value="2026-02">Febrero 2026</option><option value="2026-03">Marzo 2026</option><option value="2026-04">Abril 2026</option><option value="2026-05">Mayo 2026</option><option value="2026-06">Junio 2026</option><option value="2026-07">Julio 2026</option><option value="2026-08">Agosto 2026</option><option value="2026-09">Septiembre 2026</option><option value="2026-10" selected>Octubre 2026</option></select></label>
-      <p class="src">Los intereses se calculan sobre el impuesto, no sobre las sanciones. La tasa de noviembre se publica a fin de mes.</p>
+      <label class="field" for="mo-mes"><span>Mes del pago (define la tasa)</span><select id="mo-mes"><option value="2026-01">Enero 2026</option><option value="2026-02">Febrero 2026</option><option value="2026-03">Marzo 2026</option><option value="2026-04">Abril 2026</option><option value="2026-05">Mayo 2026</option><option value="2026-06">Junio 2026</option><option value="2026-07">Julio 2026</option><option value="2026-08">Agosto 2026</option><option value="2026-09">Septiembre 2026</option><option value="2026-10">Octubre 2026</option><option value="2026-11" selected>Noviembre 2026</option></select></label>
+      <p class="src">Los intereses se calculan sobre el impuesto, no sobre las sanciones. La tasa de diciembre se publica a fin de mes.</p>
     </form>
     <div id="mo-res" aria-live="polite"></div>
   </div>
@@ -177,7 +176,7 @@
   <div class="btns"><a class="btn btn-gold" href="https://wa.me/573005074934" target="_blank" rel="noopener">Escríbenos por WhatsApp</a><a class="btn btn-ghost" href="https://forms.gle/e7yWGi6NWT7gZv5R6" target="_blank" rel="noopener">Solicita asesoría</a></div>
 </div></section>
 <footer class="foot"><div class="wrap">
-  <p>La información de este sitio es de referencia y no reemplaza la asesoría profesional. Fechas del Calendario Tributario 2026 de la DIAN (versión del 1 de julio de 2026). Tasas y valores actualizados al 22 de octubre de 2026.</p>
+  <p>La información de este sitio es de referencia y no reemplaza la asesoría profesional. Fechas del Calendario Tributario 2026 de la DIAN (versión del 1 de julio de 2026). Tasas y valores actualizados al 23 de noviembre de 2026.</p>
   <p>SOLUCION CONTABLE Y FISCAL S.A.S. · Vía 40 #73-290, Edificio Mix, Oficina 612, Barranquilla · WhatsApp <span class="num">300 507 4934</span> · solucontfisc@gmail.com · <a href="https://solucioncontableyfiscal.com/" target="_blank" rel="noopener">solucioncontableyfiscal.com</a> · <a href="politica-de-datos.html">Política de tratamiento de datos</a></p>
 </div></footer>
 <script src="assets/data.js?v=c8549d72"></script><script src="assets/calc.js?v=c8549d72"></script><script>(function(){var d=new Date(),s=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
