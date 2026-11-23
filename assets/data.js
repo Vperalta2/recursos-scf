@@ -1,21 +1,22 @@
-/* Datos oficiales. Actualizado: 22 de octubre de 2026.
+/* Datos oficiales. Actualizado: 23 de noviembre de 2026.
    Fuentes: Calendario Tributario 2026 DIAN (versión 1-jul-2026, Decreto 2229 de 2023),
    Res. DIAN 000238/2025 (UVT 2026), Res. DIAN 000193/2024 (UVT 2025),
    Decretos 1469 y 1470 de 2025 (SMMLV y auxilio de transporte 2026),
-   Res. SFC 1472/2026 (usura octubre 2026), art. 635 ET. */
+   Res. SFC 1707/2026 (usura noviembre 2026), art. 635 ET. */
 var SCF_DATA = {
-  actualizado: "22 de octubre de 2026",
+  actualizado: "23 de noviembre de 2026",
   uvt: { 2025: 49799, 2026: 52374 },
   smmlv: 1750905,
   auxTransporte: 249095,
-  usura: { mes: "octubre de 2026", ea: 28.59, ibc: 19.06 },
+  usura: { mes: "noviembre de 2026", ea: 28.34, ibc: 18.89 },
   // Interés moratorio tributario (usura consumo y ordinario − 2 puntos), vigente al momento del pago
   moratorio: {
     "2026-01": 22.36, "2026-02": 23.23, "2026-03": 23.52, "2026-04": 24.76,
     "2026-05": 26.17, "2026-06": 26.79, "2026-07": 26.79, "2026-08": 27.66,
-    "2026-09": 27.24, "2026-10": 26.59
+    "2026-09": 27.24, "2026-10": 26.59,
+    "2026-11": 26.34
   },
-  moratorioVigente: "2026-10",
+  moratorioVigente: "2026-11",
   sancionMinima: { 2026: 524000 },
   // Dígitos en orden 1,2,3,4,5,6,7,8,9,0 → índice 0..9
   cal: {
